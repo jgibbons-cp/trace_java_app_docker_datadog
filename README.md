@@ -34,12 +34,13 @@ Setup and Configuration:
 1. Pull down the Datadog tracer using the following command: ```wget -O dd-java-agent.jar https://dtdg.co/latest-java-tracer```    
 1. Create the Docker image: ```docker image build -t hw_war ./```  
 1. Run the docker image: ```docker container run -it --name hw_war --network hw_war -e 
-JAVA_OPTS="-javaagent:/usr/local/tomcat/bin/dd-java-agent.jar" -e DD_AGENT_HOST=datadog-agent 
+JAVA_OPTS="-javaagent:/usr/local/tomcat/bin/dd-java-agent.jar -Ddd.env=test_service" -e DD_AGENT_HOST=datadog-agent 
 -e DD_TRACE_AGENT_PORT=8126 -p 8081:8080 hw_war```  
    1. --name - the name of the container  
    1. --network - network to use    
    1. JAVA_OPTS - append to the JAVA_OPTS passed to the jvm in the java command.  The javaagent is the Datadog tracer. 
-   Other system properties (e.g. -D) can be placed there too.
+   Other system properties (e.g. -D) can be placed there too such as dd.env.  The env vars can be found 
+   [here](https://docs.datadoghq.com/tracing/setup/java/#configuration).  
    1. DD_AGENT_HOST - set to the container name (e.g. --name hw_war)  
    1. DD_TRACE_AGENT_PORT - port where the agent is listening for traces  
 1. Create traffic - go to http://<IP_OF_HOST>:<PORT>/hello-world-war-1.0.0/ and create traffic  
